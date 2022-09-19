@@ -1,0 +1,69 @@
+#include<Servo.h>
+const int pingPin = 7;
+int servoPin = 8;
+int buzzer = A5;
+Servo servo1;
+
+void setup() {
+  
+  Serial.begin(9600);
+  servo1.attach(servoPin);
+  pinMode(2,INPUT);
+  pinMode(4,OUTPUT);
+  digitalWrite(2,LOW);
+  digitalWrite(11,HIGH);
+  
+}
+
+void loop() {
+  
+  long duration, inches, cm;
+
+  pinMode(pingPin, OUTPUT);
+  digitalWrite(pingPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(pingPin, HIGH);
+  delayMicroseconds(5);
+  digitalWrite(pingPin, LOW);
+  pinMode(pingPin, INPUT);
+  duration = pulseIn(pingPin, HIGH);
+  inches = microsecondsToInches(duration);
+  cm = microsecondsToCentimeters(duration);
+  servo1.write(0);
+  
+  if(cm < 40)
+  {
+    servo1.write(90);
+    delay(2000);
+    digitalWrite (buzzer, HIGH);
+    delay (500);
+  }
+  else
+  {
+    servo1.write(0);
+    digitalWrite (buzzer, LOW);
+    delay (500);
+  }
+  
+  // PIR with LED starts
+  int pir = digitalRead(2);
+  
+  if(pir == HIGH)
+  {
+    digitalWrite(4,HIGH);
+    delay(1000);
+  }
+  else if(pir == LOW)
+  {
+    digitalWrite(4,LOW);
+  }
+}  
+  
+
+long microsecondsToInches(long microseconds) {
+  return microseconds / 74 / 2;
+}
+
+long microsecondsToCentimeters(long microseconds) {
+  return microseconds / 29 / 2;
+}
