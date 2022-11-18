@@ -1,0 +1,252 @@
+[
+    {
+        "id": "9e16f69e17a17a3a",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "3a1b64499b64086e",
+        "type": "ibmiot in",
+        "z": "9e16f69e17a17a3a",
+        "authentication": "apiKey",
+        "apiKey": "d3d241d760be32e9",
+        "inputType": "evt",
+        "logicalInterface": "",
+        "ruleId": "",
+        "deviceId": "",
+        "applicationId": "",
+        "deviceType": "+",
+        "eventType": "+",
+        "commandType": "",
+        "format": "json",
+        "name": "IBM IoT",
+        "service": "registered",
+        "allDevices": "",
+        "allApplications": "",
+        "allDeviceTypes": true,
+        "allLogicalInterfaces": "",
+        "allEvents": true,
+        "allCommands": "",
+        "allFormats": "",
+        "qos": 0,
+        "x": 70,
+        "y": 300,
+        "wires": [
+            [
+                "864c73fbd8df5b8b",
+                "b77a9b3e8f3fb252"
+            ]
+        ]
+    },
+    {
+        "id": "864c73fbd8df5b8b",
+        "type": "function",
+        "z": "9e16f69e17a17a3a",
+        "name": "function ",
+        "func": "var msg1={};\nvar msg2={};\nvar msg3={};\nmsg1.payload = msg.payload.Distance; \nmsg2.payload = msg.payload.latitude; \nmsg3.payload = msg.payload.longitude;\nreturn [msg1, msg2, msg3];\n",
+        "outputs": 3,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 240,
+        "wires": [
+            [
+                "53694b0547a04328"
+            ],
+            [
+                "d39c51e2d12e96f0"
+            ],
+            [
+                "de6ce8c8f71af009"
+            ]
+        ]
+    },
+    {
+        "id": "53694b0547a04328",
+        "type": "ui_gauge",
+        "z": "9e16f69e17a17a3a",
+        "name": "Distance",
+        "group": "e1f7ae7916f8d6e2",
+        "order": 1,
+        "width": "6",
+        "height": "9",
+        "gtype": "donut",
+        "title": "BIN LEVEL",
+        "label": "cm",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "50",
+        "seg2": "80",
+        "x": 900,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "d39c51e2d12e96f0",
+        "type": "ui_text",
+        "z": "9e16f69e17a17a3a",
+        "group": "f9ef24bc62beb59f",
+        "order": 2,
+        "width": "6",
+        "height": "3",
+        "name": "latitiude",
+        "label": "latitude",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 900,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "de6ce8c8f71af009",
+        "type": "ui_text",
+        "z": "9e16f69e17a17a3a",
+        "group": "f9ef24bc62beb59f",
+        "order": 1,
+        "width": "6",
+        "height": "3",
+        "name": "longitude",
+        "label": "longitiude",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 900,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "46d8538fcca24a22",
+        "type": "worldmap",
+        "z": "9e16f69e17a17a3a",
+        "name": "location",
+        "lat": "",
+        "lon": "",
+        "zoom": "",
+        "layer": "OSMC",
+        "cluster": "",
+        "maxage": "",
+        "usermenu": "show",
+        "layers": "show",
+        "panit": "false",
+        "panlock": "false",
+        "zoomlock": "false",
+        "hiderightclick": "false",
+        "coords": "none",
+        "showgrid": "false",
+        "showruler": "false",
+        "allowFileDrop": "true",
+        "path": "/map",
+        "overlist": "DR,CO,RA,DN,HM",
+        "maplist": "OSMG,OSMC,EsriC,EsriS,EsriT,EsriDG,UKOS",
+        "mapname": "GOOGLE MAPS",
+        "mapurl": "https://www.google.com/maps",
+        "mapopt": "",
+        "mapwms": true,
+        "x": 880,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "b77a9b3e8f3fb252",
+        "type": "function",
+        "z": "9e16f69e17a17a3a",
+        "name": "function 2",
+        "func": "msg.payload = {  latitude: msg.payload.latitude,\n    longitude: msg.payload.longitude}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 380,
+        "wires": [
+            [
+                "65823a0aa9c0e974"
+            ]
+        ]
+    },
+    {
+        "id": "65823a0aa9c0e974",
+        "type": "change",
+        "z": "9e16f69e17a17a3a",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload.name",
+                "pt": "msg",
+                "to": "worldmap",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 560,
+        "y": 380,
+        "wires": [
+            [
+                "46d8538fcca24a22"
+            ]
+        ]
+    },
+    {
+        "id": "d3d241d760be32e9",
+        "type": "ibmiot",
+        "name": "IOT",
+        "keepalive": "60",
+        "serverName": "",
+        "cleansession": true,
+        "appId": "",
+        "shared": false
+    },
+    {
+        "id": "e1f7ae7916f8d6e2",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "004f558216ec7811",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "f9ef24bc62beb59f",
+        "type": "ui_group",
+        "name": "bin1",
+        "tab": "e8096443afed3ad3",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "004f558216ec7811",
+        "type": "ui_tab",
+        "name": "DASHBOARD",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "e8096443afed3ad3",
+        "type": "ui_tab",
+        "name": "LOCATION",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    }
+]
